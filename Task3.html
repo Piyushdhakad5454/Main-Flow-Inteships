@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript Form Validation</title>
+<style>
+    .error { color: red; }
+    .success { color: green; }
+</style>
+</head>
+<body>
+
+<h2>Form Validation Example</h2>
+<div id="formContainer"></div>
+<div id="formMessage"></div>
+
+<script>
+    
+    function createForm() {
+        const formContainer = document.getElementById('formContainer');
+
+        const form = document.createElement('form');
+        form.id = 'myForm';
+
+        
+        const nameLabel = document.createElement('label');
+        nameLabel.textContent = 'Name:';
+        form.appendChild(nameLabel);
+
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.id = 'name';
+        nameInput.name = 'name';
+        form.appendChild(nameInput);
+
+        const nameError = document.createElement('span');
+        nameError.id = 'nameError';
+        nameError.className = 'error';
+        form.appendChild(nameError);
+
+        form.appendChild(document.createElement('br'));
+
+        
+        const emailLabel = document.createElement('label');
+        emailLabel.textContent = 'Email:';
+        form.appendChild(emailLabel);
+
+        const emailInput = document.createElement('input');
+        emailInput.type = 'email';
+        emailInput.id = 'email';
+        emailInput.name = 'email';
+        form.appendChild(emailInput);
+
+        const emailError = document.createElement('span');
+        emailError.id = 'emailError';
+        emailError.className = 'error';
+        form.appendChild(emailError);
+
+        form.appendChild(document.createElement('br'));
+
+        
+        const submitButton = document.createElement('input');
+        submitButton.type = 'submit';
+        submitButton.value = 'Submit';
+        form.appendChild(submitButton);
+
+        formContainer.appendChild(form);
+
+        
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            validateForm();
+        });
+    }
+
+    
+    function validateForm() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const formMessage = document.getElementById('formMessage');
+        let isValid = true;
+
+        
+        if (name === '') {
+            nameError.textContent = ' Name is required';
+            isValid = false;
+        } else {
+            nameError.textContent = '';
+        }
+
+        
+        if (email === '') {
+            emailError.textContent = ' Email is required';
+            isValid = false;
+        } else if (!isValidEmail(email)) {
+            emailError.textContent = ' Invalid email format';
+            isValid = false;
+        } else {
+            emailError.textContent = '';
+        }
+
+        if (isValid) {
+            formMessage.textContent = 'Form submitted successfully!';
+            formMessage.className = 'success';
+        } else {
+            formMessage.textContent = 'Please correct the errors and try again.';
+            formMessage.className = 'error';
+        }
+    }
+
+    
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    
+    window.onload = createForm;
+</script>
+
+</body>
+</html>
